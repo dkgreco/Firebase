@@ -3,6 +3,9 @@ const React = require('react'),
 
 let TodoList;
 TodoList = React.createClass({
+    propTypes: {
+        displayList: React.PropTypes.array.isRequired
+    },
     render: function() {
         "use strict";
         let {displayList} = this.props,
