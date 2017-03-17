@@ -2,12 +2,18 @@ const React = require('react');
 
 let Todo;
 Todo = React.createClass({
+    toggleValue: function () {
+        "use strict";
+        let {id} = this.props;
+        return this.props.onToggle(id);
+    },
     render: function() {
         "use strict";
-        let {id, action} = this.props;
+        let {completed, action} = this.props;
         return (
-            <div>
-                {id}. {action}
+            <div onClick={this.toggleValue}>
+                <input type="checkbox" checked={completed}/>
+                {action}
             </div>
         )
     }

@@ -13,7 +13,7 @@ TodoList = React.createClass({
                 return displayList.map(todo => {
                     return (
                         //use the spread operator to pass all attrs down
-                        <Todo key={todo.id} {...todo}/>
+                        <Todo key={todo.id} {...todo} onToggle={this.props.onToggle}/>
                     )
                 });
             };

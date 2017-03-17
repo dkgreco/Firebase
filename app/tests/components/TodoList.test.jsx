@@ -31,4 +31,8 @@ describe('TodoList', () => {
 
         expect(actualRenderedTodoComponents).toBe(expectedTodoCount);
     });
+
+    it('should toggle the stored value from the completed prop of the task.', () => {
+
+    });
 });
