@@ -9,20 +9,16 @@ AddTodo = React.createClass({
 
         if (taskToAdd !== '') {
             this.refs.taskToAdd.value = '';
-            this.props.handleAddTask(taskToAdd);
+            this.props.onAddTask(taskToAdd);
         }
-        /*
-        return () => {
-            this.props.handleAddTask(taskToAdd);
-        }*/
     },
     render: function() {
         "use strict";
         return (
             <div>
                 <form onSubmit={this.handleFormSubmit}>
-                    <input type="text" ref="taskToAdd" placeholder="Add New Todo Here"/>
-                    <button>Add</button>
+                    <input type="text" ref="taskToAdd" placeholder="What do you need to do?"/>
+                    <button className="button expanded">Add Task</button>
                 </form>
             </div>
         )

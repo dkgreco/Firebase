@@ -14,7 +14,7 @@ describe('AddTodo', () => {
 
     it('should call handleAddTask() if valid string entered', () => {
         let spy = expect.createSpy(),
-            addTodo = TestUtilsLib.renderIntoDocument(<AddTodo handleAddTask={spy}/>),
+            addTodo = TestUtilsLib.renderIntoDocument(<AddTodo onAddTask={spy}/>),
             $element = $(ReactDOM.findDOMNode(addTodo));
 
         addTodo.refs.taskToAdd.value = 'Save my progress';
@@ -25,7 +25,7 @@ describe('AddTodo', () => {
 
     it('should not call handleAddTask() if 0 length string entered', () => {
         let spy = expect.createSpy(),
-            addTodo = TestUtilsLib.renderIntoDocument(<AddTodo handleAddTask={spy}/>),
+            addTodo = TestUtilsLib.renderIntoDocument(<AddTodo onAddTask={spy}/>),
             $element = $(ReactDOM.findDOMNode(addTodo));
 
         addTodo.refs.taskToAdd.value = '';
