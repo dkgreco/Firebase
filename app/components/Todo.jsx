@@ -12,7 +12,7 @@ Todo = React.createClass({
         let {completed, action} = this.props;
         return (
             <div onClick={this.toggleValue}>
-                <input type="checkbox" checked={completed}/>
+                <input type="checkbox" checked={completed} onChange="readonly"/>
                 {action}
             </div>
         )
