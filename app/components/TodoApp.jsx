@@ -1,5 +1,6 @@
 const React = require('react'),
-    TodoList = require('TodoList');
+    TodoList = require('TodoList'),
+    AddTodo = require('AddTodo');
 
 let TodoApp;
 TodoApp = React.createClass({
@@ -22,13 +23,17 @@ TodoApp = React.createClass({
             ]
         }
     },
+    handleAddTask: function(taskToAdd) {
+        "use strict";
+        alert('new task: ' + taskToAdd);
+    },
     render: function() {
         "use strict";
         let {todos} = this.state;
         return (
             <div>
-                Render From TodoApp.jsx
                 <TodoList displayList={todos}/>
+                <AddTodo handleAddTask={this.handleAddTask}/>
             </div>
         )
     }
