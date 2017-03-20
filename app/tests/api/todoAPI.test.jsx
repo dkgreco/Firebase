@@ -58,4 +58,61 @@ describe('todoAPI', () => {
             expect(actualTaskList).toEqual(expectedTaskList);
         });
     });
+
+    describe('filterTasks', () => {
+        beforeEach(() => {
+            localStorage.removeItem('taskList');
+        });
+        let taskList = [{
+            id: 147,
+            action: 'Wash the dog',
+            completed: true
+        },{
+            id: 148,
+            action: 'Wash the Mister',
+            completed: false
+        },{
+            id: 149,
+            action: 'Wash the tiger',
+            completed: true
+        }];
+
+        it('should return all items if showCompleted is true', () => {
+            let filteredTasks = todoAPI.filterTasks(taskList, true, '');
+
+            expect(filteredTasks.length).toBe(3);
+        });
+
+        it('should exclude all completed items from list if showCompleted is false', () => {
+            let filteredTasks = todoAPI.filterTasks(taskList, false, '');
+
+            expect(filteredTasks.length).toBe(1);
+        });
+
+        it('should filter by search filter provided from user', () => {
+            let filteredTasks = todoAPI.filterTasks(taskList, false, 'mister');
+
+            expect(filteredTasks[0].action).toEqual('Wash the Mister');
+        });
+
+        it('should show all non-completed tasks if search filter is NOT provided by user', () => {
+            let filteredTasks = todoAPI.filterTasks(taskList, false, '');
+
+            expect(filteredTasks.length).toEqual(1);
+        });
+
+        it('should sort by completed status: non-completed to the top', () => {
+            let filteredTasks = todoAPI.filterTasks(taskList, true, '');
+
+            expect(filteredTasks[0].completed).toBe(false);
+            expect(filteredTasks[0].id).toEqual(148);
+        });
+
+        it('should sort by completed status: completed to the bottom', () => {
+            let filteredTasks = todoAPI.filterTasks(taskList, true, '');
+
+            expect(filteredTasks[2].completed).toBe(true);
+            expect(filteredTasks[2].id).toEqual(149);
+        });
+    });
 });

@@ -21,10 +21,30 @@ module.exports = {
 
         return $.isArray(list) ? list : [];
     },
-    filterTasks: function(taskList, showCompleted, searchText) {
+    filterTasks: function(taskList, showCompleted, searchFilter) {
         "use strict";
         let filteredTaskList = taskList;
 
-        return filteredTaskList
+        //filter by showCompleted
+        filteredTaskList = filteredTaskList.filter(task => !task.completed || showCompleted);
+
+        //filter by searchFilter
+        filteredTaskList = filteredTaskList.filter(task => {
+            let text = task.action.toLowerCase();
+            return searchFilter.length === 0 || text.indexOf(searchFilter) > -1;
+        });
+
+        //sort task by non-completed first
+        filteredTaskList.sort((a, b) => {
+            if(!a.completed && b.completed) {
+                return -1;
+            } else if (a.completed && !b.completed) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+
+        return filteredTaskList;
     }
 };
