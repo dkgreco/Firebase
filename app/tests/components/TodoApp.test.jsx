@@ -16,10 +16,10 @@ describe('TodoApp', () => {
         let expectedTask = 'Feed Mister',
         todoApp = TestUtilsLib.renderIntoDocument(<TodoApp/>);
 
-        todoApp.setState({todos: []});
+        todoApp.setState({taskList: []});
         todoApp.handleAddTask(expectedTask);
 
-        expect(todoApp.state.todos[0].action).toBe(expectedTask);
+        expect(todoApp.state.taskList[0].action).toBe(expectedTask);
     });
 
     it('should toggle the stored value from the completed prop of the task.', () => {
@@ -31,14 +31,14 @@ describe('TodoApp', () => {
             todoApp = TestUtilsLib.renderIntoDocument(<TodoApp/>),
             expectedValue = true;
 
-        todoApp.setState({todos: [task]});
+        todoApp.setState({taskList: [task]});
 
         //check that value is false
-        expect(todoApp.state.todos[0].completed).toBe(task.completed);
+        expect(todoApp.state.taskList[0].completed).toBe(task.completed);
         //force a change
         todoApp.handleToggle(11);
         //verify change
-        expect(todoApp.state.todos[0].completed).toBe(expectedValue);
+        expect(todoApp.state.taskList[0].completed).toBe(expectedValue);
 
 
     });

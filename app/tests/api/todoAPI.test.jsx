@@ -10,7 +10,7 @@ describe('todoAPI', () => {
 
     describe('setTaskList', () => {
         beforeEach(() => {
-           localStorage.removeItem('todos');
+           localStorage.removeItem('taskList');
         });
 
         it('should set valid task array', () => {
@@ -22,7 +22,7 @@ describe('todoAPI', () => {
 
             todoAPI.setTasks(expectedTaskList);
 
-            let actualTaskList = JSON.parse(localStorage.getItem('todos'));
+            let actualTaskList = JSON.parse(localStorage.getItem('taskList'));
 
            expect(actualTaskList).toEqual(expectedTaskList);
         });
@@ -33,7 +33,7 @@ describe('todoAPI', () => {
 
             todoAPI.setTasks(updateTaskList);
 
-            let actualTaskList = JSON.parse(localStorage.getItem('todos'));
+            let actualTaskList = JSON.parse(localStorage.getItem('taskList'));
 
             expect(actualTaskList).toBe(expectedValue);
         });
@@ -51,7 +51,7 @@ describe('todoAPI', () => {
                 action: 'Feed Mister',
                 completed: false
             }];
-            localStorage.setItem('todos', JSON.stringify(expectedTaskList));
+            localStorage.setItem('taskList', JSON.stringify(expectedTaskList));
 
             let actualTaskList = todoAPI.getTasks();
 

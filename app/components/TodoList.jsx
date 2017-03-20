@@ -9,18 +9,18 @@ TodoList = React.createClass({
     render: function() {
         "use strict";
         let {displayList} = this.props,
-            renderTodos = () => {
-                return displayList.map(todo => {
+            renderTaskList = () => {
+                return displayList.map(task => {
                     return (
                         //use the spread operator to pass all attrs down
-                        <Todo key={todo.id} {...todo} onToggle={this.props.onToggle}/>
+                        <Todo key={task.id} {...task} onToggle={this.props.onToggle}/>
                     )
                 });
             };
 
         return (
             <div>
-                {renderTodos()}
+                {renderTaskList()}
             </div>
         )
     }
