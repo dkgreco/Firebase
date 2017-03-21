@@ -31,4 +31,12 @@ describe('TodoList', () => {
 
         expect(actualRenderedTodoComponents).toBe(expectedTodoCount);
     });
+
+    it('should render empty message if no tasks', () => {
+        let taskList = [],
+            todoList = TestUtilsLib.renderIntoDocument(<TodoList displayList={taskList}/>),
+            $element = $(ReactDOM.findDOMNode(todoList));
+
+        expect($element.find('.container__message').length).toBe(1);
+    });
 });

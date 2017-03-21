@@ -16,23 +16,26 @@ Todo = React.createClass({
     render: function() {
         "use strict";
         let {completed, action, createdAt, completedAt} = this.props;
+        let taskClassName = completed ? 'todo todo-completed' : 'todo';
         let renderTimeStampMessage = () => {
             let displayMarkup,
                 createTS = moment.unix(createdAt).format('MMMM Do, YYYY @ HH:mm:ss'),
                 completeTS = moment.unix(completedAt).format('MMMM Do, YYYY @ HH:mm:ss');
 
-            displayMarkup = <p>Created On: {createTS}</p>;
+            displayMarkup = <p className="todo__subtext">Created On: {createTS}</p>;
             if (completed) {
-                displayMarkup = <p>Created On: {createTS}<br/>Completed On: {completeTS}</p>
+                displayMarkup = <p className="todo__subtext">Created On: {createTS}<br/>Completed On: {completeTS}</p>
             }
 
             return displayMarkup;
         };
         return (
             <div onClick={this.toggleValue}>
-                <input type="checkbox" checked={completed} onChange={this.doNothing}/>
-                {action}
-                {renderTimeStampMessage()}
+                <div className={taskClassName}>
+                    <input type="checkbox" checked={completed} onChange={this.doNothing}/>
+                    {action}
+                    {renderTimeStampMessage()}
+                </div>
             </div>
         )
     }

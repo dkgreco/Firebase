@@ -12,7 +12,7 @@ TodoSearch = React.createClass({
     render: function() {
         "use strict";
         return (
-            <div>
+            <div className="container__header">
                 <div>
                     <input type="search" ref="searchFilter" placeholder="Search By Task Name" onChange={this.handleSearch}/>
                 </div>
