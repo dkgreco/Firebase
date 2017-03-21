@@ -39,9 +39,10 @@ TodoApp = React.createClass({
     },
     handleSearch: function(showCompleted, searchFilter) {
         "use strict";
+        let lowerCaseFilter = searchFilter.toLowerCase();
         this.setState({
             showCompleted: showCompleted,
-            searchFilter: searchFilter.toLowerCase()
+            searchFilter: lowerCaseFilter
         });
     },
     handleToggle: function(id) {

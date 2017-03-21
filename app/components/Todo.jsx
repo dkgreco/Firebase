@@ -20,13 +20,12 @@ Todo = React.createClass({
             let displayMarkup,
                 createTS = moment.unix(createdAt).format('MMMM Do, YYYY @ HH:mm:ss'),
                 completeTS = moment.unix(completedAt).format('MMMM Do, YYYY @ HH:mm:ss');
-            console.log(createTS);
-            console.log(completeTS);
+
             displayMarkup = <p>Created On: {createTS}</p>;
             if (completed) {
                 displayMarkup = <p>Created On: {createTS}<br/>Completed On: {completeTS}</p>
             }
-            console.log(displayMarkup);
+
             return displayMarkup;
         };
         return (

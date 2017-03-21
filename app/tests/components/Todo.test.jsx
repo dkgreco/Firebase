@@ -2,7 +2,8 @@ const React = require('react'),
     ReactDOM = require('react-dom'),
     expect = require('expect'),
     $ = require('jQuery'),
-    TestUtilsLib = require('react-addons-test-utils');
+    TestUtilsLib = require('react-addons-test-utils'),
+    moment = require('moment');
 
 let Todo = require('Todo');
 
@@ -16,7 +17,9 @@ describe('Todo', () => {
         let task = {
                 id: 119,
                 action: 'Feed Mister',
-                completed: true
+                completed: true,
+                createdAt: moment().unix(),
+                completedAt: moment().unix()
             },
             spy = expect.createSpy(),
             todo = TestUtilsLib.renderIntoDocument(<Todo {...task} onToggle={spy}/>),
@@ -26,6 +29,5 @@ describe('Todo', () => {
         TestUtilsLib.Simulate.click($element[0]);
 
         expect(spy).toHaveBeenCalledWith(expectedValue);
-
     });
 });
