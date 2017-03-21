@@ -90,7 +90,7 @@ describe('todoAPI', () => {
         });
 
         it('should filter by search filter provided from user', () => {
-            let filteredTasks = todoAPI.filterTasks(taskList, false, 'mister');
+            let filteredTasks = todoAPI.filterTasks(taskList, false, 'Mister'.toLowerCase());
 
             expect(filteredTasks[0].action).toEqual('Wash the Mister');
         });
