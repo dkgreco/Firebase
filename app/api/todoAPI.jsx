@@ -2,6 +2,7 @@ const $ = require('jQuery');
 module.exports = {
     setTasks: function(taskList) {
         "use strict";
+        console.log('setting tasklist to: ', taskList);
         if($.isArray(taskList)) {
             localStorage.setItem('displayList', JSON.stringify(taskList));
             return taskList;
@@ -11,10 +12,11 @@ module.exports = {
         "use strict";
         //Fetch items off local storage
         let stringList = localStorage.getItem('displayList');
+        console.log('stringlist from getTasks(): ', stringList);
         let list = [];
 
         try {
-            list = JSON.parse(stringList);
+            list = stringList ? JSON.parse(stringList) : list;
         } catch(e) {
             console.error('Error Caught:\n', e);
         }

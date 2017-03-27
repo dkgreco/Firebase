@@ -1,32 +1,25 @@
 const React = require('react'),
     ReactDOM = require('react-dom'),
     redux = require('redux'),
+    actions = require('./src-redux/actionGenerators/actionGenerators.jsx'),
+    todoAPI = require('todoAPI'),
     {Route, Router, IndexRoute, hashHistory} = require('react-router'),
     TodoApp = require('TodoApp'),
     {Provider} = require('react-redux');
 
 //load redux
 let store = require('./src-redux/store/configureStore.jsx')();
-let actions = require('./src-redux/actionGenerators/actionGenerators.jsx');
+store.subscribe(() => {
+    let newState = store.getState();
+    console.log('NewState: ', newState);
+    console.log('newState displaylist: ', newState.displayList);
+    todoAPI.setTasks(newState.displayList);
+});
 
-    /*{store, setSearchFilterTo, viewCompletedTasks, addTask, completeTask, removeTask, fetchLocation} =
-    require('reduxAPI')(require('./src-redux/store/configureStore.jsx')());*/
-const initialStoreState = store;
-store.subscribe(() => console.log('NewState: ', store.getState()));
-let viewInitialState = () => console.log('Initial State: ', initialStoreState);
-/*
-let customCalls = {
-    addTask,
-    setSearchFilterTo,
-    viewCompletedTasks,
-    completeTask,
-    removeTask,
-    fetchLocation,
-    viewInitialState
-};
+let initialDisplayList = todoAPI.getTasks();
+console.log('initialDisplayList ', initialDisplayList);
+store.dispatch(actions.buildTaskListFromLocalStorage(initialDisplayList));
 
-window.customCalls = customCalls;
-*/
 //Load Foundation and Custom CSS
 require('style!css!sass!applicationStyles');
 $('document').foundation();
