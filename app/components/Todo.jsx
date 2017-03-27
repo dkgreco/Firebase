@@ -1,5 +1,7 @@
 const React = require('react'),
-    moment = require('moment');
+    {connect} = require('react-redux'),
+    moment = require('moment'),
+    actions = require('../src-redux/actionGenerators/actionGenerators.jsx');
 
 let Todo;
 Todo = React.createClass({
@@ -10,20 +12,23 @@ Todo = React.createClass({
     },
     toggleValue: function () {
         "use strict";
-        let {id} = this.props;
-        return this.props.onToggle(id);
+        let {id, markCompleted, dispatch} = this.props;
+        let {markTaskCompleted} = actions;
+        let toggleTo = !markCompleted;
+        return  dispatch(markTaskCompleted(id, toggleTo)); //this.props.onToggle(id);
     },
     render: function() {
         "use strict";
-        let {completed, action, createdAt, completedAt} = this.props;
-        let taskClassName = completed ? 'todo todo-completed' : 'todo';
+
+        let {task, markCompleted, taskCreatedAt, taskCompletedAt} = this.props;
+        let taskClassName = markCompleted ? 'todo todo-completed' : 'todo';
         let renderTimeStampMessage = () => {
             let displayMarkup,
-                createTS = moment.unix(createdAt).format('MMMM Do, YYYY @ HH:mm:ss'),
-                completeTS = moment.unix(completedAt).format('MMMM Do, YYYY @ HH:mm:ss');
+                createTS = moment.unix(taskCreatedAt).format('MMMM Do, YYYY @ HH:mm:ss'),
+                completeTS = moment.unix(taskCompletedAt).format('MMMM Do, YYYY @ HH:mm:ss');
 
             displayMarkup = <p className="todo__subtext">Created On: {createTS}</p>;
-            if (completed) {
+            if (markCompleted) {
                 displayMarkup = <p className="todo__subtext">Created On: {createTS}<br/>Completed On: {completeTS}</p>
             }
 
@@ -32,8 +37,8 @@ Todo = React.createClass({
         return (
             <div onClick={this.toggleValue}>
                 <div className={taskClassName}>
-                    <input type="checkbox" checked={completed} onChange={this.doNothing}/>
-                    {action}
+                    <input type="checkbox" checked={markCompleted} onChange={this.doNothing}/>
+                    {task}
                     {renderTimeStampMessage()}
                 </div>
             </div>
@@ -41,4 +46,6 @@ Todo = React.createClass({
     }
 });
 
-module.exports = Todo;
+module.exports = connect(state => state)(Todo);
+
+//

@@ -3,14 +3,14 @@ module.exports = {
     setTasks: function(taskList) {
         "use strict";
         if($.isArray(taskList)) {
-            localStorage.setItem('taskList', JSON.stringify(taskList));
+            localStorage.setItem('displayList', JSON.stringify(taskList));
             return taskList;
         }
     },
     getTasks: function() {
         "use strict";
         //Fetch items off local storage
-        let stringList = localStorage.getItem('taskList');
+        let stringList = localStorage.getItem('displayList');
         let list = [];
 
         try {
@@ -26,19 +26,20 @@ module.exports = {
         let filteredTaskList = taskList;
 
         //filter by showCompleted
-        filteredTaskList = filteredTaskList.filter(task => !task.completed || showCompleted);
+        filteredTaskList = filteredTaskList.filter(task => !task.markCompleted || showCompleted);
 
         //filter by searchFilter
         filteredTaskList = filteredTaskList.filter(task => {
-            let text = task.action.toLowerCase();
+            searchFilter = searchFilter.toLowerCase();
+            let text = task.task.toLowerCase();
             return searchFilter.length === 0 || text.indexOf(searchFilter) > -1;
         });
 
         //sort task by non-completed first
         filteredTaskList.sort((a, b) => {
-            if(!a.completed && b.completed) {
+            if(!a.markCompleted && b.markCompleted) {
                 return -1;
-            } else if (a.completed && !b.completed) {
+            } else if (a.markCompleted && !b.markCompleted) {
                 return 1;
             } else {
                 return 0;

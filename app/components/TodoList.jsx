@@ -1,28 +1,27 @@
 const React = require('react'),
+    {connect} = require('react-redux'),
+    todoAPI = require('todoAPI'),
     Todo = require('Todo');
 
 let TodoList;
 TodoList = React.createClass({
-    propTypes: {
-        displayList: React.PropTypes.array.isRequired
-    },
     render: function() {
         "use strict";
-        let {displayList} = this.props,
+        let {displayList, showCompleted, searchFilter} = this.props,
             renderTaskList = () => {
-                if (displayList.length === 0) {
+                let filteredTaskList = todoAPI.filterTasks(displayList, showCompleted, searchFilter);
+                if (filteredTaskList.length === 0) {
                     return (
                         <p className="container__message">Nothing To Do</p>
                     )
                 }
-                return displayList.map(task => {
+                return filteredTaskList.map(task => {
                     return (
                         //use the spread operator to pass all attrs down
-                        <Todo key={task.id} {...task} onToggle={this.props.onToggle}/>
+                        <Todo key={task.id} {...task}/>
                     )
                 });
             };
-
         return (
             <div>
                 {renderTaskList()}
@@ -31,4 +30,4 @@ TodoList = React.createClass({
     }
 });
 
-module.exports = TodoList;
+module.exports = connect(state => state)(TodoList);
