@@ -10,32 +10,30 @@ describe('todoAPI', () => {
 
     describe('setTaskList', () => {
         beforeEach(() => {
-           localStorage.removeItem('taskList');
+           localStorage.removeItem('displayList');
         });
 
         it('should set valid task array', () => {
             let expectedTaskList = [{
                id: 23,
-               action: 'Feed Mister',
-               completed: false
+               task: 'Feed Mister',
+               markCompleted: false
             }];
 
             todoAPI.setTasks(expectedTaskList);
 
-            let actualTaskList = JSON.parse(localStorage.getItem('taskList'));
+            let actualTaskList = JSON.parse(localStorage.getItem('displayList'));
 
            expect(actualTaskList).toEqual(expectedTaskList);
         });
 
-        it('should not set invalid task array', () => {
-            let updateTaskList = "Set to string",
-                expectedValue = null;
+        it('should not return value if displayList DNE', () => {
+            let updateTaskList = "Set to string";
 
             todoAPI.setTasks(updateTaskList);
 
-            let actualTaskList = JSON.parse(localStorage.getItem('taskList'));
-
-            expect(actualTaskList).toBe(expectedValue);
+            let actualTaskList = JSON.parse(localStorage.getItem('displayList'));
+            expect(actualTaskList).toNotExist();
         });
     });
 
@@ -45,13 +43,13 @@ describe('todoAPI', () => {
             expect(actualTaskList).toEqual([]);
         });
 
-        it('should return tasklist if valid array exists in storage', () => {
+        it('should return displayList if valid array exists in storage', () => {
             let expectedTaskList = [{
                 id: 23,
-                action: 'Feed Mister',
-                completed: false
+                task: 'Feed Mister',
+                markCompleted: false
             }];
-            localStorage.setItem('taskList', JSON.stringify(expectedTaskList));
+            localStorage.setItem('displayList', JSON.stringify(expectedTaskList));
 
             let actualTaskList = todoAPI.getTasks();
 
@@ -61,57 +59,56 @@ describe('todoAPI', () => {
 
     describe('filterTasks', () => {
         beforeEach(() => {
-            localStorage.removeItem('taskList');
+            localStorage.removeItem('displayList');
         });
-        let taskList = [{
+        let displayList = [{
             id: 147,
-            action: 'Wash the dog',
-            completed: true
+            task: 'Wash the dog',
+            markCompleted: true
         },{
             id: 148,
-            action: 'Wash the Mister',
-            completed: false
+            task: 'Wash the Mister',
+            markCompleted: false
         },{
             id: 149,
-            action: 'Wash the tiger',
-            completed: true
+            task: 'Wash the tiger',
+            markCompleted: true
         }];
 
         it('should return all items if showCompleted is true', () => {
-            let filteredTasks = todoAPI.filterTasks(taskList, true, '');
+            let filteredTasks = todoAPI.filterTasks(displayList, true, '');
 
             expect(filteredTasks.length).toBe(3);
         });
 
         it('should exclude all completed items from list if showCompleted is false', () => {
-            let filteredTasks = todoAPI.filterTasks(taskList, false, '');
+            let filteredTasks = todoAPI.filterTasks(displayList, false, '');
 
             expect(filteredTasks.length).toBe(1);
         });
 
         it('should filter by search filter provided from user', () => {
-            let filteredTasks = todoAPI.filterTasks(taskList, false, 'Mister'.toLowerCase());
-
-            expect(filteredTasks[0].action).toEqual('Wash the Mister');
+            let filteredTasks = todoAPI.filterTasks(displayList, false, 'Mister');
+            expect(filteredTasks[0].task).toEqual('Wash the Mister');
         });
 
         it('should show all non-completed tasks if search filter is NOT provided by user', () => {
-            let filteredTasks = todoAPI.filterTasks(taskList, false, '');
+            let filteredTasks = todoAPI.filterTasks(displayList, false, '');
 
             expect(filteredTasks.length).toEqual(1);
         });
 
         it('should sort by completed status: non-completed to the top', () => {
-            let filteredTasks = todoAPI.filterTasks(taskList, true, '');
+            let filteredTasks = todoAPI.filterTasks(displayList, true, '');
 
-            expect(filteredTasks[0].completed).toBe(false);
+            expect(filteredTasks[0].markCompleted).toBe(false);
             expect(filteredTasks[0].id).toEqual(148);
         });
 
         it('should sort by completed status: completed to the bottom', () => {
-            let filteredTasks = todoAPI.filterTasks(taskList, true, '');
+            let filteredTasks = todoAPI.filterTasks(displayList, true, '');
 
-            expect(filteredTasks[2].completed).toBe(true);
+            expect(filteredTasks[2].markCompleted).toBe(true);
             expect(filteredTasks[2].id).toEqual(149);
         });
     });

@@ -13,21 +13,24 @@ describe('Todo', () => {
         expect(Todo).toExist();
     });
 
-    it('should call onToggle fxn and pass id on click', () => {
+/*    it('should dispatch markCompleted action on click', () => {
         let task = {
                 id: 119,
-                action: 'Feed Mister',
-                completed: true,
-                createdAt: moment().unix(),
-                completedAt: moment().unix()
+                task: 'Feed Mister',
+                markCompleted: true,
+                taskCreatedAt: moment().unix(),
+                taskCompletedAt: moment().unix()
             },
             spy = expect.createSpy(),
             todo = TestUtilsLib.renderIntoDocument(<Todo {...task} onToggle={spy}/>),
-            expectedValue = task.id,
+            expectedValue = {
+                type: '',
+                id: task.id
+            },
             $element = $(ReactDOM.findDOMNode(todo));
 
         TestUtilsLib.Simulate.click($element[0]);
 
         expect(spy).toHaveBeenCalledWith(expectedValue);
-    });
+    });*/
 });

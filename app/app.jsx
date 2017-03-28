@@ -12,12 +12,10 @@ let store = require('./src-redux/store/configureStore.jsx')();
 store.subscribe(() => {
     let newState = store.getState();
     console.log('NewState: ', newState);
-    console.log('newState displaylist: ', newState.displayList);
     todoAPI.setTasks(newState.displayList);
 });
 
 let initialDisplayList = todoAPI.getTasks();
-console.log('initialDisplayList ', initialDisplayList);
 store.dispatch(actions.buildTaskListFromLocalStorage(initialDisplayList));
 
 //Load Foundation and Custom CSS

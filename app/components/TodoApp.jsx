@@ -3,7 +3,7 @@ const React = require('react'),
     TodoList = require('TodoList'),
     TodoSearch = require('TodoSearch');
 
-let TodoApp;
+export let TodoApp;
 TodoApp = React.createClass({
     render: function() {
         "use strict";
@@ -24,4 +24,4 @@ TodoApp = React.createClass({
     }
 });
 
-module.exports = TodoApp;
+export default TodoApp;

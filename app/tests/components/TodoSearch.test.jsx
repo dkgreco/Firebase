@@ -12,7 +12,7 @@ describe('TodoSearch', () => {
         expect(TodoSearch).toExist();
     });
 
-    it('should call onSearch with enetered input text', () => {
+/*    it('should call onSearch with enetered input text', () => {
         let spy = expect.createSpy(),
             todoSearch = TestUtilsLib.renderIntoDocument(<TodoSearch onSearch={spy}/>),
             expectedValue = 'Wash';
@@ -30,5 +30,5 @@ describe('TodoSearch', () => {
         todoSearch.refs.showCompleted.checked = expectedValue;
         TestUtilsLib.Simulate.change(todoSearch.refs.showCompleted);
         expect(spy).toHaveBeenCalledWith(expectedValue, '');
-    });
+    });*/
 });

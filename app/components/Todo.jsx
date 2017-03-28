@@ -3,7 +3,8 @@ const React = require('react'),
     moment = require('moment'),
     actions = require('../src-redux/actionGenerators/actionGenerators.jsx');
 
-let Todo;
+
+export let Todo;
 Todo = React.createClass({
     doNothing: function() {
         "use strict";
@@ -45,7 +46,4 @@ Todo = React.createClass({
         )
     }
 });
-
-module.exports = connect(state => state)(Todo);
-
-//
+export default connect(state => state)(Todo);
