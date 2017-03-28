@@ -7,6 +7,8 @@ const React = require('react'),
     TodoApp = require('TodoApp'),
     {Provider} = require('react-redux');
 
+import './../playground/firebase/index';
+
 //load redux
 let store = require('./src-redux/store/configureStore.jsx')();
 store.subscribe(() => {
