@@ -3,8 +3,7 @@ const React = require('react'),
     todoAPI = require('todoAPI'),
     Todo = require('Todo');
 
-export let TodoList;
-TodoList = React.createClass({
+let TodoList = React.createClass({
     render: function() {
         "use strict";
         let {displayList, showCompleted, searchFilter} = this.props,
@@ -30,4 +29,4 @@ TodoList = React.createClass({
     }
 });
 
-export default connect(state => state)(TodoList);
+module.exports = connect(state => state)(TodoList);

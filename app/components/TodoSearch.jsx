@@ -2,8 +2,7 @@ const React = require('react'),
     {connect} = require('react-redux'),
     actions = require('../src-redux/actionGenerators/actionGenerators.jsx');
 
-export let TodoSearch;
-TodoSearch = React.createClass({
+let TodoSearch = React.createClass({
     searchBy: function() {
         "use strict";
         let {changeSearchFilter} = actions;
@@ -38,4 +37,4 @@ TodoSearch = React.createClass({
     }
 });
 
-export default connect(state => state)(TodoSearch);
+module.exports = connect(state => state)(TodoSearch);

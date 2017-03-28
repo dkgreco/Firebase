@@ -3,9 +3,7 @@ const React = require('react'),
     moment = require('moment'),
     actions = require('../src-redux/actionGenerators/actionGenerators.jsx');
 
-
-export let Todo;
-Todo = React.createClass({
+let Todo = React.createClass({
     doNothing: function() {
         "use strict";
         //does nothing.  To resolve karma error: ERROR: 'Warning: Failed form propType: Invalid prop onChange of type
@@ -46,4 +44,4 @@ Todo = React.createClass({
         )
     }
 });
-export default connect(state => state)(Todo);
+module.exports = connect(state => state)(Todo);

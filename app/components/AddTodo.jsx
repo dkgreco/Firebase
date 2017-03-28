@@ -2,8 +2,7 @@ const React = require('react'),
     {connect} = require('react-redux'),
     actions = require('../src-redux/actionGenerators/actionGenerators.jsx');
 
-export let AddTodo;
-AddTodo = React.createClass({
+let AddTodo = React.createClass({
     handleFormSubmit: function(e) {
         "use strict";
         e.preventDefault();
@@ -29,4 +28,4 @@ AddTodo = React.createClass({
     }
 });
 
-export default connect()(AddTodo);
+module.exports = connect()(AddTodo);
