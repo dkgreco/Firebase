@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test karma start",
-    "build": "set NODE_ENV=production&& webpack",
+    "build": "webpack -p",
     "start": "npm run build && node server"
   },
   "keywords": [
