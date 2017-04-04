@@ -3,16 +3,10 @@ let webpack = require('webpack'),
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-module.exports = {
-    entry: [
-        'script!jquery/dist/jquery.min.js',
-        'script!foundation-sites/dist/foundation.min.js',
-        './app/app.jsx'
-    ],
-    externals: {
-        jquery: 'jQuery'
-    },
-    plugins: [
+let pluginConfig;
+
+if (process.env.NODE_ENV === 'production') {
+    pluginConfig = [
         new webpack.ProvidePlugin({
             '$': 'jquery',
             'jQuery': 'jquery'
@@ -22,7 +16,26 @@ module.exports = {
                 warnings: false
             }
         })
+    ]
+} else {
+    pluginConfig = [
+        new webpack.ProvidePlugin({
+            '$': 'jquery',
+            'jQuery': 'jquery'
+        })
+    ]
+}
+
+module.exports = {
+    entry: [
+        'script!jquery/dist/jquery.min.js',
+        'script!foundation-sites/dist/foundation.min.js',
+        './app/app.jsx'
     ],
+    externals: {
+        jquery: 'jQuery'
+    },
+    plugins: pluginConfig,
     output: {
         path: __dirname,
         filename: './public/bundle.js'
