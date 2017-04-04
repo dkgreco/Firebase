@@ -3,11 +3,12 @@ import firebase from 'firebase';
 try {
 // Initialize Firebase
     let config = {
-        apiKey: "AIzaSyDIp4XwHAWDBj13gLPyzAIl2d2UDjqXpc4",
-        authDomain: "greco-task-tracker.firebaseapp.com",
-        databaseURL: "https://greco-task-tracker.firebaseio.com",
-        storageBucket: "greco-task-tracker.appspot.com",
-        messagingSenderId: "207043300616"
+        apiKey: process.env.API_KEY,
+        authDomain: process.env.AUTH_DOMAIN,
+        databaseURL: process.env.DB_URL,
+        projectId: process.env.PROJECT_ID,
+        storageBucket: process.env.STORAGE_BUCKET,
+        messagingSenderId: process.env.SENDER_ID
     };
     firebase.initializeApp(config);
 } catch (e) {

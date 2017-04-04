@@ -1,10 +1,16 @@
 let webpack = require('webpack'),
-    path = require('path');
+    path = require('path'),
+    envFile = require('node-env-file');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+console.log('Build Environment is: ', process.env.NODE_ENV);
 
+try {
+    envFile(path.join(__dirname, 'config/' + process.env.NODE_ENV + '.env'));
+} catch(e) {
+    console.error('EnvFile Load Fail.');
+}
 let pluginConfig;
-
 if (process.env.NODE_ENV === 'production') {
     pluginConfig = [
         new webpack.ProvidePlugin({
@@ -15,13 +21,53 @@ if (process.env.NODE_ENV === 'production') {
             compressor: {
                 warnings: false
             }
+        }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+                API_KEY: JSON.stringify(process.env.API_KEY),
+                AUTH_DOMAIN: JSON.stringify(process.env.AUTH_DOMAIN),
+                DB_URL: JSON.stringify(process.env.DB_URL),
+                PROJECT_ID: JSON.stringify(process.env.PROJECT_ID),
+                STORAGE_BUCKET: JSON.stringify(process.env.STORAGE_BUCKET),
+                SENDER_ID: JSON.stringify(process.env.SENDER_ID)
+            }
         })
     ]
-} else {
+} else if (process.env.NODE_ENV === 'development') {
     pluginConfig = [
         new webpack.ProvidePlugin({
             '$': 'jquery',
             'jQuery': 'jquery'
+        }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+                API_KEY: JSON.stringify(process.env.API_KEY),
+                AUTH_DOMAIN: JSON.stringify(process.env.AUTH_DOMAIN),
+                DB_URL: JSON.stringify(process.env.DB_URL),
+                PROJECT_ID: JSON.stringify(process.env.PROJECT_ID),
+                STORAGE_BUCKET: JSON.stringify(process.env.STORAGE_BUCKET),
+                SENDER_ID: JSON.stringify(process.env.SENDER_ID)
+            }
+        })
+    ]
+} else if (process.env.NODE_ENV === 'test') {
+    pluginConfig = [
+        new webpack.ProvidePlugin({
+            '$': 'jquery',
+            'jQuery': 'jquery'
+        }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+                API_KEY: JSON.stringify(process.env.API_KEY),
+                AUTH_DOMAIN: JSON.stringify(process.env.AUTH_DOMAIN),
+                DB_URL: JSON.stringify(process.env.DB_URL),
+                PROJECT_ID: JSON.stringify(process.env.PROJECT_ID),
+                STORAGE_BUCKET: JSON.stringify(process.env.STORAGE_BUCKET),
+                SENDER_ID: JSON.stringify(process.env.SENDER_ID)
+            }
         })
     ]
 }
