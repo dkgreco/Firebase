@@ -1,4 +1,3 @@
-const $ = require('jQuery');
 module.exports = {
     filterTasks: function(taskList, showCompleted, searchFilter) {
         "use strict";

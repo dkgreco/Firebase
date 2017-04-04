@@ -1,7 +1,7 @@
 const React = require('react'),
     ReactDOM = require('react-dom'),
     expect = require('expect'),
-    $ = require('jQuery'),
+    $ = require('jquery'),
     TestUtilsLib = require('react-addons-test-utils'),
     actions = require('./../../src-redux/actionGenerators/actionGenerators');
 
