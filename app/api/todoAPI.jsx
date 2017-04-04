@@ -1,30 +1,8 @@
 const $ = require('jQuery');
 module.exports = {
-    setTasks: function(taskList) {
-        "use strict";
-        if($.isArray(taskList)) {
-            localStorage.setItem('displayList', JSON.stringify(taskList));
-            return taskList;
-        }
-    },
-    getTasks: function() {
-        "use strict";
-        //Fetch items off local storage
-        let stringList = localStorage.getItem('displayList');
-        let list = [];
-
-        try {
-            list = stringList ? JSON.parse(stringList) : list;
-        } catch(e) {
-            console.error('Error Caught:\n', e);
-        }
-
-        return $.isArray(list) ? list : [];
-    },
     filterTasks: function(taskList, showCompleted, searchFilter) {
         "use strict";
         let filteredTaskList = taskList;
-
         //filter by showCompleted
         filteredTaskList = filteredTaskList.filter(task => !task.markCompleted || showCompleted);
 

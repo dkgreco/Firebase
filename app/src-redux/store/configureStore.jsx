@@ -1,5 +1,5 @@
-const redux = require('redux'),
-      thunk = require('redux-thunk').default;
+import * as redux from 'redux';
+import thunk from 'redux-thunk';
 
 let configure = () => {
     let {

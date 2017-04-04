@@ -8,9 +8,6 @@ let TodoSearch = require('TodoSearch');
 
 describe('TodoSearch', () => {
     "use strict";
-    it('should exist', () => {
-        expect(TodoSearch).toExist();
-    });
 
 /*    it('should call onSearch with enetered input text', () => {
         let spy = expect.createSpy(),

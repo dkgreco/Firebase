@@ -1,10 +1,19 @@
 const moment = require('moment'),
     uuid = require('node-uuid');
+import firebase, {firebaseReference} from 'app/firebase/';
+
 module.exports = (() => {
     let _startLocationSearch = () => {
             "use strict";
             return {
                 type: 'START_LOCATION_SEARCH'
+            }
+        },
+        _buildTaskView = parsedTaskList => {
+            "use strict";
+            return {
+                type: 'READ',
+                displayList: parsedTaskList
             }
         },
         _completeLocationSearch = url => {
@@ -13,24 +22,57 @@ module.exports = (() => {
                 type: 'STOP_LOCATION_SEARCH',
                 url: url
             }
-        };
-
-    let addTaskToList = task => {
+        },
+        _addTaskToList = task => {
             "use strict";
             return {
-                type: 'ADD_TASK',
-                id: uuid(),
-                task: task,
-                taskCreatedAt: moment().unix(),
-                markCompleted: false,
-                taskCompletedAt: undefined
+                type: 'CREATE',
+                task
             }
         },
-        buildTaskListFromLocalStorage = taskList => {
+        _updateTaskInformation = (id, updateValues) => {
             "use strict";
             return {
-                type: 'BUILD_FROM_LOCAL_STORAGE',
-                displayList: taskList
+                type: 'UPDATE',
+                id,
+                updateValues
+            }
+        };
+
+    let setTask = taskAction => {
+            "use strict";
+            return (dispatch, getState) => {
+                let task =   {
+                    task: taskAction,
+                    markCompleted: false,
+                    taskCreatedAt: moment().unix(),
+                    taskCompletedAt: null
+                };
+                let taskReference = firebaseReference.child('taskList').push(task);
+                return taskReference.then(() => {
+                    dispatch(_addTaskToList({
+                        ...task,
+                        id: taskReference.key
+                    }));
+                })
+            };
+        },
+        getListFromDB = () => {
+        "use strict";
+            let taskReference = firebaseReference.child('taskList');
+            return dispatch => {
+                taskReference.once('value').then(snapshot => {
+                    let taskListObject = snapshot.val() || {},
+                        parsedTasks = [];
+
+                    Object.keys(taskListObject).forEach(taskId => {
+                        parsedTasks.push({
+                            id: taskId,
+                            ...taskListObject[taskId]
+                        })
+                    });
+                    dispatch(_buildTaskView(parsedTasks));
+                });
             }
         },
         changeSearchFilter = searchFilter => {
@@ -52,26 +94,31 @@ module.exports = (() => {
                     let location = res.data.loc;
                     let baseUrl = 'http://maps.google.com/?q=';
 
-                    let passbackUrl = baseUrl + location;
+                    let passbackUrl = `${baseUrl}${location}`;
 
                     dispatch(_completeLocationSearch(passbackUrl));
                 });
             };
         },
-        markTaskCompleted = (id, boolVal) => {
+        setToggle = (id, boolVal) => {
             "use strict";
-            let timeValue = boolVal ? moment().unix() : undefined;
-            return {
-                type: 'COMPLETE_TASK',
-                id: id,
-                markCompleted: boolVal,
-                taskCompletedAt: timeValue
+            return (dispatch, getState) => {
+                let taskReference = firebaseReference.child(`taskList/${id}`),
+                    updateValues = {
+                        markCompleted: boolVal,
+                        taskCompletedAt: boolVal ? moment().unix() : null
+                    };
+                return taskReference.update(updateValues).then(() => {
+                    dispatch(_updateTaskInformation(id, updateValues));
+                }, e => {
+                    console.error('Update Failed: ', e);
+                });
             }
         },
         removeTaskFromList = taskId => {
             "use strict";
             return {
-                type: 'DEL_TASK',
+                type: 'DELETE',
                 id: taskId
             }
         },
@@ -84,11 +131,11 @@ module.exports = (() => {
         };
 
     return {
-        addTaskToList,
-        buildTaskListFromLocalStorage,
+        getListFromDB,
+        setTask,
         changeSearchFilter,
         fetchLocationInfo,
-        markTaskCompleted,
+        setToggle,
         removeTaskFromList,
         showCompletedTasks
     };

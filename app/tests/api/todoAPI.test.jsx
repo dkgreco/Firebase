@@ -4,9 +4,6 @@ let todoAPI = require('todoAPI');
 
 describe('todoAPI', () => {
     "use strict";
-    it('should exist', () => {
-        expect(todoAPI).toExist();
-    }) ;
 
     describe('setTaskList', () => {
         beforeEach(() => {

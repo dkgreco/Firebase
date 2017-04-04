@@ -7,12 +7,11 @@ let AddTodo = React.createClass({
         "use strict";
         e.preventDefault();
         let {dispatch} = this.props;
-        let {addTaskToList} = actions;
+        let {setTask} = actions;
         let task = this.refs.taskToAdd.value;
-
         if (task !== '') {
             this.refs.taskToAdd.value = '';
-            dispatch(addTaskToList(task));
+            dispatch(setTask(task));
         }
     },
     render: function() {

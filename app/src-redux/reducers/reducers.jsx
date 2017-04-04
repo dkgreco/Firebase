@@ -45,38 +45,26 @@ module.exports = (() => {
             "use strict";
             state = state || [];
             switch(action.type) {
-                case 'ADD_TASK':
+                case 'CREATE':
                     return [
                         ...state,
-                        {
-                            id: action.id,
-                            task: action.task,
-                            markCompleted: action.markCompleted,
-                            taskCreatedAt: action.taskCreatedAt,
-                            taskCompletedAt: action.taskCompletedAt
-                        }
+                        action.task
                     ];
-                case 'COMPLETE_TASK':
+                case 'READ':
+                    return action.displayList;
+                case 'UPDATE':
                     return state.map(task => {
                         if (task.id === action.id) {
                             return {
                                 ...task,
-                                markCompleted: action.markCompleted,
-                                taskCompletedAt: action.taskCompletedAt
+                                ...action.updateValues
                             }
                         } else {
                             return task;
                         }
                     });
-                case 'DEL_TASK':
+                case 'DELETE':
                     return state.filter(task => task.id !== action.id);
-                case 'BUILD_FROM_LOCAL_STORAGE':
-                    if (action.displayList.length > 0) {
-                        return [
-                            ...action.displayList
-                        ];
-                    }
-                    return state;
                 default:
                     return state;
             }

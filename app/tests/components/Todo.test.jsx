@@ -9,9 +9,6 @@ let Todo = require('Todo');
 
 describe('Todo', () => {
     "use strict";
-    it('should exist', () => {
-        expect(Todo).toExist();
-    });
 
 /*    it('should dispatch markCompleted action on click', () => {
         let task = {

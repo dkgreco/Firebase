@@ -9,9 +9,6 @@ let TodoApp = require('TodoApp');
 
 describe('TodoApp', () => {
     "use strict";
-    it('should exist', () => {
-        expect(TodoApp).toExist();
-    });
 
  /*   it('should add the task to the task state on handleAddTask', () => {
         let task = 'Feed Mister',

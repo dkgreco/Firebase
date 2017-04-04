@@ -12,9 +12,9 @@ let Todo = React.createClass({
     toggleValue: function () {
         "use strict";
         let {id, markCompleted, dispatch} = this.props;
-        let {markTaskCompleted} = actions;
+        let {setToggle} = actions;
         let toggleTo = !markCompleted;
-        return  dispatch(markTaskCompleted(id, toggleTo)); //this.props.onToggle(id);
+        return  dispatch(setToggle(id, toggleTo));
     },
     render: function() {
         "use strict";

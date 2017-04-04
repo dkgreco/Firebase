@@ -9,9 +9,6 @@ let TodoList = require('TodoList'),
 
 describe('TodoList', () => {
     "use strict";
-    it('should exist', () => {
-        expect(TodoList).toExist();
-    });
 
 /*    it('should render one Todo component for each todo item', () => {
         let todos = [
