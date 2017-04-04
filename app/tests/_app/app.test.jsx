@@ -1,6 +1,5 @@
 const expect = require('expect'),
     {   setTask,
-        buildTaskListFromLocalStorage,
         changeSearchFilter,
         fetchLocationInfo,
         setToggle,
@@ -10,7 +9,7 @@ const expect = require('expect'),
     {   mapReducer, searchFilterReducer,
         showCompletedReducer, taskListReducer
     } = require('./../../src-redux/reducers/reducers'),
-    {setTasks, getTasks, filterTasks} = require('./../../api/todoAPI');
+    {filterTasks} = require('./../../api/todoAPI');
 
 //Application Test
 describe('Web Application', () => {
@@ -29,12 +28,6 @@ describe('Web Application', () => {
                 expect(require('todoAPI')).toExist();
             });
             describe('API List', () => {
-                it('fxn exists: setTasks', () => {
-                    expect(setTasks).toExist();
-                });
-                it('fxn exists: getTasks', () => {
-                    expect(getTasks).toExist();
-                });
                 it('fxn exists: filterTasks', () => {
                     expect(filterTasks).toExist();
                 });

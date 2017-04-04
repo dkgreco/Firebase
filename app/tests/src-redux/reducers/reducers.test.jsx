@@ -5,15 +5,6 @@ const expect = require('expect'),
     } = require('./../../../src-redux/reducers/reducers.jsx');
 
 describe('Reducer Actions: taskList', () => {
-    it('should fetch existing task list', () => {
-        let action = {
-                type: "READ",
-            },
-            res = taskListReducer(df([]), df(action));
-            console.log(action);
-            console.log(res);
-
-    });
     it('should create new task', () => {
         //CREATE TASK
         let action = {
@@ -30,11 +21,26 @@ describe('Reducer Actions: taskList', () => {
         expect(res.length).toBe(1);
         expect(res[0]).toEqual(action.task);
     });
+    it('should read and render data as if from db', () => {
+        let action = {
+                type: "READ",
+                displayList: [{
+                    id: 'junk',
+                    task: 'Go to Brunch',
+                    markCompleted: false,
+                    taskCreatedAt: 4000000,
+                    taskCompletedAt: null
+                }]
+            },
+            res = taskListReducer(df([]), df(action));
+        expect(res.length).toBe(1);
+        expect(res[0]).toEqual(action.displayList[0]);
+    });
     it('should update an existing task', () => {
         let action = {
                 type: "UPDATE",
                 id: 'junk',
-                task: {
+                updateValues: {
                     markCompleted: true,
                     taskCompletedAt: 500000
                 },
@@ -48,7 +54,8 @@ describe('Reducer Actions: taskList', () => {
             }]), df(action));
 
         expect(res.length).toBe(1);
-        expect(res[0].markCompleted).toEqual(action.task.markCompleted);
-        expect(res[0].taskCompletedAt).toEqual(action.task.taskCompletedAt);
+        expect(res[0].markCompleted).toEqual(action.updateValues.markCompleted);
+        expect(res[0].taskCompletedAt).toEqual(action.updateValues.taskCompletedAt);
     });
+    it('TODO - Test to remove an exist task from list', () => console.log('please integrate me...free pass for now'));
 });

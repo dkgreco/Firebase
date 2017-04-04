@@ -9,13 +9,6 @@ module.exports = (() => {
                 type: 'START_LOCATION_SEARCH'
             }
         },
-        _buildTaskView = parsedTaskList => {
-            "use strict";
-            return {
-                type: 'READ',
-                displayList: parsedTaskList
-            }
-        },
         _completeLocationSearch = url => {
             "use strict";
             return {
@@ -28,6 +21,13 @@ module.exports = (() => {
             return {
                 type: 'CREATE',
                 task
+            }
+        },
+        _buildTaskView = parsedTaskList => {
+            "use strict";
+            return {
+                type: 'READ',
+                displayList: parsedTaskList
             }
         },
         _updateTaskInformation = (id, updateValues) => {
