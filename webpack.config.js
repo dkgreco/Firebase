@@ -6,10 +6,11 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 console.log('Build Environment is: ', process.env.NODE_ENV);
 
 try {
-    envFile(path.join(__dirname, 'config/' + process.env.NODE_ENV + '.env'));
+    if(process.env.NODE_ENV !== 'production') envFile(path.join(__dirname, 'config/' + process.env.NODE_ENV + '.env'));
 } catch(e) {
     console.error('EnvFile Load Fail.');
 }
+
 let pluginConfig;
 if (process.env.NODE_ENV === 'production') {
     pluginConfig = [
@@ -26,11 +27,11 @@ if (process.env.NODE_ENV === 'production') {
             'process.env': {
                 NODE_ENV: JSON.stringify(process.env.NODE_ENV),
                 API_KEY: JSON.stringify(process.env.API_KEY),
-                AUTH_DOMAIN: JSON.stringify(process.env.AUTH_DOMAIN),
-                DB_URL: JSON.stringify(process.env.DB_URL),
-                PROJECT_ID: JSON.stringify(process.env.PROJECT_ID),
-                STORAGE_BUCKET: JSON.stringify(process.env.STORAGE_BUCKET),
-                SENDER_ID: JSON.stringify(process.env.SENDER_ID)
+                AUTH_DOMAIN: JSON.stringify(process.env.authDomain),
+                DB_URL: JSON.stringify(process.env.databaseURL),
+                PROJECT_ID: JSON.stringify(process.env.projectId),
+                STORAGE_BUCKET: JSON.stringify(process.env.storageBucket),
+                SENDER_ID: JSON.stringify(process.env.messagingSenderId)
             }
         })
     ]
@@ -71,6 +72,8 @@ if (process.env.NODE_ENV === 'production') {
         })
     ]
 }
+
+console.log('process.env:', process.env.API_KEY);
 
 module.exports = {
     entry: [
