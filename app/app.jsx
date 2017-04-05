@@ -9,10 +9,12 @@ const React = require('react'),
 //load redux
 let store = require('./src-redux/store/configureStore.jsx')();
 //listen and watch the changes to the store...
-store.subscribe(() => {
-    let newState = store.getState();
-    console.log('NewState: ', newState);
-});
+if(process.env.NODE_ENV !== 'production') {
+    store.subscribe(() => {
+        let newState = store.getState();
+        console.log('NewState: ', newState);
+    });
+}
 
 //Init DB Data
 store.dispatch(actions.getListFromDB());
