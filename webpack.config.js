@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'production') {
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-                API_KEY: JSON.stringify(process.env.API_KEY),
+                API_KEY: JSON.stringify(process.env.apiKey),
                 AUTH_DOMAIN: JSON.stringify(process.env.authDomain),
                 DB_URL: JSON.stringify(process.env.databaseURL),
                 PROJECT_ID: JSON.stringify(process.env.projectId),
@@ -72,8 +72,6 @@ if (process.env.NODE_ENV === 'production') {
         })
     ]
 }
-
-console.log('process.env:', process.env.API_KEY);
 
 module.exports = {
     entry: [
