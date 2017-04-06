@@ -1,7 +1,7 @@
 const React = require('react'),
     {connect} = require('react-redux'),
-    moment = require('moment'),
-    actions = require('../src-redux/actionGenerators/actionGenerators.jsx');
+    moment = require('moment');
+import {setToggle} from '../src-redux/actionGenerators/actionGenerators.jsx';
 
 let Todo = React.createClass({
     doNothing: function() {
@@ -12,13 +12,10 @@ let Todo = React.createClass({
     toggleValue: function () {
         "use strict";
         let {id, markCompleted, dispatch} = this.props;
-        let {setToggle} = actions;
-        let toggleTo = !markCompleted;
-        return  dispatch(setToggle(id, toggleTo));
+        return  dispatch(setToggle(id, !markCompleted));
     },
     render: function() {
         "use strict";
-
         let {task, markCompleted, taskCreatedAt, taskCompletedAt} = this.props;
         let taskClassName = markCompleted ? 'todo todo-completed' : 'todo';
         let renderTimeStampMessage = () => {

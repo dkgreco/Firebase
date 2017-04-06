@@ -1,13 +1,13 @@
 const React = require('react'),
-    {connect} = require('react-redux'),
-    actions = require('../src-redux/actionGenerators/actionGenerators.jsx');
+    {connect} = require('react-redux');
+
+import {setTask} from '../src-redux/actionGenerators/actionGenerators.jsx';
 
 let AddTodo = React.createClass({
     handleFormSubmit: function(e) {
         "use strict";
         e.preventDefault();
         let {dispatch} = this.props;
-        let {setTask} = actions;
         let task = this.refs.taskToAdd.value;
         if (task !== '') {
             this.refs.taskToAdd.value = '';

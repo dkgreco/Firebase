@@ -3,3 +3,4 @@ config/
 public/bundle.js
 .idea/
 playground
+app/src-redux/actionGenerators/exposedInternalActionGenerators.jsx

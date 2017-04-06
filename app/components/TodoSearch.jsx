@@ -1,19 +1,18 @@
 const React = require('react'),
-    {connect} = require('react-redux'),
-    actions = require('../src-redux/actionGenerators/actionGenerators.jsx');
+    {connect} = require('react-redux');
+
+import {setSearchFilter, showCompletedTasks} from '../src-redux/actionGenerators/actionGenerators.jsx';
 
 let TodoSearch = React.createClass({
     searchBy: function() {
         "use strict";
-        let {changeSearchFilter} = actions;
         let {dispatch} = this.props;
         let {searchFilter} = this.refs;
         let searchFilterValue = searchFilter.value;
-        dispatch(changeSearchFilter(searchFilterValue));
+        dispatch(setSearchFilter(searchFilterValue));
     },
     changeView: function() {
         "use strict";
-        let {showCompletedTasks} = actions;
         let {dispatch, showCompleted} = this.props;
         dispatch(showCompletedTasks(!showCompleted));
     },

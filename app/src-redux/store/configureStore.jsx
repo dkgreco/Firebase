@@ -1,19 +1,16 @@
 import * as redux from 'redux';
+import * as reducers from '../reducers/reducers.jsx';
 import thunk from 'redux-thunk';
 
 let configure = () => {
-    let {
-        searchFilterReducer,
-        showCompletedReducer,
-        taskListReducer,
-        mapReducer
-    } = require('../reducers/reducers.jsx');
+    let {mapReducer, searchFilterReducer,
+    showCompletedReducer, taskListReducer} = reducers;
 
     let reducer = redux.combineReducers({
-        searchFilter: searchFilterReducer,
-        showCompleted: showCompletedReducer,
         displayList: taskListReducer,
-        map: mapReducer
+        map: mapReducer,
+        searchFilter: searchFilterReducer,
+        showCompleted: showCompletedReducer
     });
 
     return redux.createStore(reducer, redux.compose(

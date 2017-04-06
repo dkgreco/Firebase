@@ -1,33 +1,62 @@
 const moment = require('moment'),
     uuid = require('node-uuid');
-import firebase, {firebaseReference} from 'app/firebase/';
+import firebase, {firebaseReference, githubProvider} from 'app/firebase/';
 
 module.exports = (() => {
-    let _startLocationSearch = () => {
-            "use strict";
-            return {
-                type: 'START_LOCATION_SEARCH'
-            }
-        },
-        _completeLocationSearch = url => {
-            "use strict";
-            return {
-                type: 'STOP_LOCATION_SEARCH',
-                url: url
-            }
-        },
-        _addTaskToList = task => {
+    let _addTaskToList = task => {
             "use strict";
             return {
                 type: 'CREATE',
                 task
             }
         },
-        _buildTaskView = parsedTaskList => {
+        _initializeProgramWithDBData = displayList => {
             "use strict";
             return {
                 type: 'READ',
-                displayList: parsedTaskList
+                displayList
+            }
+        },
+        _changeSearchFilterTo = searchFilter => {
+            "use strict";
+            return {
+                type: 'SET_FILTER',
+                searchFilter
+            }
+        },
+        _completeLocationSearch = url => {
+            "use strict";
+            return {
+                type: 'STOP_LOCATION_SEARCH',
+                url
+            }
+        },
+        _deleteTask = id => {
+            "use strict";
+            return {
+                type: 'DELETE',
+                id
+            }
+        },
+        _exposeCompletedTasks = showCompleted => {
+        "use strict";
+            return {
+                type: 'SHOW_COMPLETED',
+                showCompleted
+            }
+        },
+        _login = () => {
+            "use strict";
+
+        },
+        _logout = () => {
+        "use strict";
+
+        },
+        _startLocationSearch = () => {
+            "use strict";
+            return {
+                type: 'START_LOCATION_SEARCH'
             }
         },
         _updateTaskInformation = (id, updateValues) => {
@@ -39,7 +68,73 @@ module.exports = (() => {
             }
         };
 
-    let setTask = taskAction => {
+    let clientLogin = () => {
+            "use strict";
+            return (dispatch, getState) => {
+                let successHandler = result => {
+                        console.log('Auth worked.', result);
+                    },
+                    failureHandler = error => {
+                        console.log('Auth failed.', error);
+                    };
+                return firebase.auth().signInWithPopup(githubProvider).then(successHandler, failureHandler);
+            }
+        },
+        clientLogout = () => {
+            "use strict";
+            return (dispatch, getState) => {
+                let successHandler = result => {
+                        console.log('Sign-out successful.', result);
+                    },
+                    failureHandler = error => {
+                        console.log('Sign-out Failed.', error);
+                    };
+                return firebase.auth().signOut().then(successHandler, failureHandler);
+            }
+        },
+        fetchDataForView = () => {
+            "use strict";
+            let taskReference = firebaseReference.child('taskList');
+            return dispatch => {
+                taskReference.once('value').then(snapshot => {
+                    let taskListObject = snapshot.val() || {},
+                        parsedTasks = [];
+
+                    Object.keys(taskListObject).forEach(taskId => {
+                        parsedTasks.push({
+                            id: taskId,
+                            ...taskListObject[taskId]
+                        })
+                    });
+                    dispatch(_initializeProgramWithDBData(parsedTasks));
+                });
+            }
+        },
+        fetchLocationInfo = () => {
+            return dispatch => {
+                //, getState
+                "use strict";
+                const axios = require('axios');
+                dispatch(_startLocationSearch());
+
+                axios.get('http://ipinfo.io').then(res => {
+                    "use strict";
+                    let location = res.data.loc;
+                    let baseUrl = 'http://maps.google.com/?q=';
+
+                    let passbackUrl = `${baseUrl}${location}`;
+
+                    dispatch(_completeLocationSearch(passbackUrl));
+                });
+            };
+        },
+        setSearchFilter = searchFilter => {
+            "use strict";
+            return dispatch => {
+                dispatch(_changeSearchFilterTo(searchFilter));
+            };
+        },
+        setTask = taskAction => {
             "use strict";
             return (dispatch, getState) => {
                 let task =   {
@@ -57,49 +152,6 @@ module.exports = (() => {
                 })
             };
         },
-        getListFromDB = () => {
-        "use strict";
-            let taskReference = firebaseReference.child('taskList');
-            return dispatch => {
-                taskReference.once('value').then(snapshot => {
-                    let taskListObject = snapshot.val() || {},
-                        parsedTasks = [];
-
-                    Object.keys(taskListObject).forEach(taskId => {
-                        parsedTasks.push({
-                            id: taskId,
-                            ...taskListObject[taskId]
-                        })
-                    });
-                    dispatch(_buildTaskView(parsedTasks));
-                });
-            }
-        },
-        changeSearchFilter = searchFilter => {
-            "use strict";
-            return {
-                type: 'SET_FILTER',
-                searchFilter: searchFilter
-            }
-        },
-        fetchLocationInfo = () => {
-            return (dispatch) => {
-                //, getState
-                "use strict";
-                const axios = require('axios');
-                dispatch(_startLocationSearch());
-
-                axios.get('http://ipinfo.io').then(res => {
-                    "use strict";
-                    let location = res.data.loc;
-                    let baseUrl = 'http://maps.google.com/?q=';
-
-                    let passbackUrl = `${baseUrl}${location}`;
-
-                    dispatch(_completeLocationSearch(passbackUrl));
-                });
-            };
-        },
         setToggle = (id, boolVal) => {
             "use strict";
             return (dispatch, getState) => {
@@ -115,28 +167,28 @@ module.exports = (() => {
                 });
             }
         },
-        removeTaskFromList = taskId => {
+        showCompletedTasks = boolVal => {
             "use strict";
-            return {
-                type: 'DELETE',
-                id: taskId
-            }
+            return dispatch => {
+                dispatch(_exposeCompletedTasks(boolVal));
+            };
         },
-        showCompletedTasks = setToState => {
+        unsetTask = taskId => {
             "use strict";
-            return {
-                type: 'SHOW_COMPLETED',
-                showCompleted: setToState
-            }
+            return dispatch => {
+                dispatch(_deleteTask(taskId));
+            };
         };
 
     return {
-        getListFromDB,
-        setTask,
-        changeSearchFilter,
+        clientLogin,
+        clientLogout,
+        fetchDataForView,
         fetchLocationInfo,
+        setSearchFilter,
+        setTask,
         setToggle,
-        removeTaskFromList,
-        showCompletedTasks
+        showCompletedTasks,
+        unsetTask
     };
 })();

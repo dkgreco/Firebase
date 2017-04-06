@@ -15,5 +15,6 @@ try {
     console.error('Unable to init db.');
 }
 
+export let githubProvider = new firebase.auth.GithubAuthProvider();
 export let firebaseReference = firebase.database().ref();
 export default firebase;
