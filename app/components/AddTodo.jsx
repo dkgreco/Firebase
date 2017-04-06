@@ -7,6 +7,7 @@ export let AddTodo = React.createClass({
         "use strict";
         e.preventDefault();
         let {dispatch} = this.props;
+        console.log(this.props);
         let task = this.refs.taskToAdd.value;
         if (task !== '') {
             this.refs.taskToAdd.value = '';
