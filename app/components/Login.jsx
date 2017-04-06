@@ -1,7 +1,6 @@
 import React from 'react';
 import * as Redux from 'react-redux';
-import {clientLogin, clientLogout} from '../src-redux/actionGenerators/actionGenerators.jsx'
-
+import {clientLogin} from '../src-redux/actionGenerators/actionGenerators.jsx'
 
 export let Login = React.createClass({
     onLogin () {

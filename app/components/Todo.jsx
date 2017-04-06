@@ -1,9 +1,9 @@
-const React = require('react'),
-    {connect} = require('react-redux'),
-    moment = require('moment');
+import React from 'react';
+import * as Redux from 'react-redux';
+import * as moment from 'moment';
 import {setToggle} from '../src-redux/actionGenerators/actionGenerators.jsx';
 
-let Todo = React.createClass({
+export let Todo = React.createClass({
     doNothing: function() {
         "use strict";
         //does nothing.  To resolve karma error: ERROR: 'Warning: Failed form propType: Invalid prop onChange of type
@@ -41,4 +41,4 @@ let Todo = React.createClass({
         )
     }
 });
-module.exports = connect(state => state)(Todo);
+export default Redux.connect(state => state)(Todo);

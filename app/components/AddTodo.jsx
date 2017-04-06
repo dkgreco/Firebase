@@ -1,6 +1,5 @@
-const React = require('react'),
-    {connect} = require('react-redux');
-
+import React from 'react';
+import * as Redux from 'react-redux'
 import {setTask} from '../src-redux/actionGenerators/actionGenerators.jsx';
 
 let AddTodo = React.createClass({
@@ -27,4 +26,4 @@ let AddTodo = React.createClass({
     }
 });
 
-module.exports = connect()(AddTodo);
+export default Redux.connect()(AddTodo);

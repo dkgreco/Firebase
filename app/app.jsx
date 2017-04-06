@@ -2,10 +2,10 @@ const React = require('react'),
     ReactDOM = require('react-dom'),
     redux = require('redux'),
     {Route, Router, IndexRoute, hashHistory} = require('react-router'),
-    TodoApp = require('TodoApp'),
     {Provider} = require('react-redux');
 
 import Login from 'Login';
+import TodoApp from 'TodoApp';
 import {fetchDataForView} from './src-redux/actionGenerators/actionGenerators.jsx'
 
 //load redux

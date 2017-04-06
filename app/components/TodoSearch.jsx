@@ -1,6 +1,5 @@
-const React = require('react'),
-    {connect} = require('react-redux');
-
+import React from 'react';
+import * as Redux from 'react-redux';
 import {setSearchFilter, showCompletedTasks} from '../src-redux/actionGenerators/actionGenerators.jsx';
 
 let TodoSearch = React.createClass({
@@ -36,4 +35,4 @@ let TodoSearch = React.createClass({
     }
 });
 
-module.exports = connect(state => state)(TodoSearch);
+export default Redux.connect(state => state)(TodoSearch);
