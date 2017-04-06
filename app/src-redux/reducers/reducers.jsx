@@ -46,6 +46,9 @@ module.exports = (() => {
             state = state || [];
             switch(action.type) {
                 case 'CREATE':
+                    console.log('Inside Create Reducer.');
+                    console.log(state);
+                    console.log(action);
                     return [
                         ...state,
                         action.task
