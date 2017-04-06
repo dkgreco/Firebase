@@ -11,7 +11,7 @@ export let AddTodo = React.createClass({
         if (task !== '') {
             this.refs.taskToAdd.value = '';
             console.log('about to dispatch addTodo');
-            dispatch(setTask(task));
+            return dispatch(setTask(task));
         }
     },
     render: function() {

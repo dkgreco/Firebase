@@ -135,6 +135,7 @@ module.exports = (() => {
         },
         setTask = taskAction => {
             "use strict";
+            console.log('inside setTask');
             return (dispatch, getState) => {
                 let task =   {
                     task: taskAction,
@@ -142,7 +143,9 @@ module.exports = (() => {
                     taskCreatedAt: moment().unix(),
                     taskCompletedAt: null
                 };
+                console.log(task);
                 let taskReference = firebaseReference.child('taskList').push(task);
+                console.log(taskReference);
                 return taskReference.then(() => {
                     dispatch(_addTaskToList({
                         ...task,
