@@ -136,6 +136,7 @@ module.exports = (() => {
         setTask = taskAction => {
             "use strict";
             console.log('inside setTask');
+            console.log(taskAction);
             return (dispatch, getState) => {
                 let task =   {
                     task: taskAction,
@@ -151,7 +152,7 @@ module.exports = (() => {
                         ...task,
                         id: taskReference.key
                     }));
-                })
+                });
             };
         },
         setToggle = (id, boolVal) => {
