@@ -152,7 +152,7 @@ module.exports = (() => {
                         ...task,
                         id: taskReference.key
                     }));
-                });
+                }, e => console.log(e));
             };
         },
         setToggle = (id, boolVal) => {
