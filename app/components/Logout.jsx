@@ -1,8 +1,7 @@
-const React = require('react'),
-    {connect} = require('react-redux'),
-    actions = require('../src-redux/actionGenerators/actionGenerators.jsx');
+import React from 'react';
+import * as Redux from 'react-redux';
 
-let Logout = React.createClass({
+export let Logout = React.createClass({
     render: function() {
         "use strict";
         return (
@@ -13,4 +12,4 @@ let Logout = React.createClass({
     }
 });
 
-module.exports = connect()(Logout);
+export default Redux.connect()(Logout);

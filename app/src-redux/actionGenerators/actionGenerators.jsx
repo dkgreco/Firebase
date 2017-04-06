@@ -1,6 +1,5 @@
-const moment = require('moment'),
-    uuid = require('node-uuid');
 import firebase, {firebaseReference, githubProvider} from 'app/firebase/';
+import * as moment from 'moment';
 
 module.exports = (() => {
     let _addTaskToList = task => {

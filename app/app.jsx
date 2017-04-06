@@ -1,13 +1,11 @@
-const React = require('react'),
-    ReactDOM = require('react-dom'),
-    redux = require('redux'),
-    {Route, Router, IndexRoute, hashHistory} = require('react-router'),
-    {Provider} = require('react-redux');
 
-import Login from 'Login';
-import TodoApp from 'TodoApp';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {Provider} from 'react-redux';
+import {hashHistory} from 'react-router';
 import firebase from 'app/firebase/';
 import {fetchDataForView} from './src-redux/actionGenerators/actionGenerators.jsx';
+import router from 'app/router';
 
 let updateAuthState = user => user ? hashHistory.push('/tasks') : hashHistory.push('/');
 firebase.auth().onAuthStateChanged(updateAuthState);
@@ -29,22 +27,9 @@ store.dispatch(fetchDataForView());
 require('style!css!sass!applicationStyles');
 $('document').foundation();
 
-let requireLogin = (nextState, replace, next) => {
-    "use strict";
-    if (!firebase.auth().currentUser) {
-        replace('/');
-    }
-    next();
-};
-
 ReactDOM.render(
     <Provider store={store}>
-        <Router history={hashHistory}>
-            <Route path="/">
-                <Route path="tasks" component={TodoApp} onEnter={requireLogin}/>
-                <IndexRoute component={Login}/>
-            </Route>
-        </Router>
+        {router}
     </Provider>,
     document.getElementById('app')
 );

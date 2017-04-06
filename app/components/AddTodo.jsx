@@ -2,7 +2,7 @@ import React from 'react';
 import * as Redux from 'react-redux'
 import {setTask} from '../src-redux/actionGenerators/actionGenerators.jsx';
 
-let AddTodo = React.createClass({
+export let AddTodo = React.createClass({
     handleFormSubmit: function(e) {
         "use strict";
         e.preventDefault();
