@@ -14,12 +14,14 @@ export let TodoApp = React.createClass({
     },
     render() {
         "use strict";
+        let loggedInUser = this.props.auth.userName;
         return (
             <div>
                 <div className="page-actions">
-                    <a href="#" onClick={this.onLogout}>Log Out</a>
+                    <button className="button secondary" onClick={this.onLogout}>Log Out</button>
                 </div>
-                <h1 className="page-title">Task App</h1>
+                <h1 className="page-title">Task Tracker Application</h1>
+                <h2 className="welcome-banner">Welcome {loggedInUser}</h2>
                 <div className="row">
                     <div className="column small-centered small-11 medium-6 large-5">
                         <div className="container">
@@ -34,4 +36,4 @@ export let TodoApp = React.createClass({
     }
 });
 
-export default Redux.connect()(TodoApp);
+export default Redux.connect(state => state)(TodoApp);
