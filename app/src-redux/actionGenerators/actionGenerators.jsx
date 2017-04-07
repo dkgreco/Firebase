@@ -1,5 +1,5 @@
 import firebase, {firebaseReference, githubProvider} from 'app/firebase/';
-import * as moment from 'moment';
+import Moment from 'moment';
 
 module.exports = (() => {
     let _addTaskToList = task => {
@@ -141,7 +141,7 @@ module.exports = (() => {
                 let task =   {
                     task: taskAction,
                     markCompleted: false,
-                    taskCreatedAt: moment().unix(),
+                    taskCreatedAt: Moment().unix(),
                     taskCompletedAt: null
                 };
                 console.log(task);
@@ -161,7 +161,7 @@ module.exports = (() => {
                 let taskReference = firebaseReference.child(`taskList/${id}`),
                     updateValues = {
                         markCompleted: boolVal,
-                        taskCompletedAt: boolVal ? moment().unix() : null
+                        taskCompletedAt: boolVal ? Moment().unix() : null
                     };
                 return taskReference.update(updateValues).then(() => {
                     dispatch(_updateTaskInformation(id, updateValues));
