@@ -4,9 +4,11 @@ import thunk from 'redux-thunk';
 
 let configure = () => {
     let {mapReducer, searchFilterReducer,
-    showCompletedReducer, taskListReducer} = reducers;
+    showCompletedReducer, taskListReducer,
+    authReducer} = reducers;
 
     let reducer = redux.combineReducers({
+        auth: authReducer,
         displayList: taskListReducer,
         map: mapReducer,
         searchFilter: searchFilterReducer,

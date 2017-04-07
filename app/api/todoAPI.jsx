@@ -6,11 +6,14 @@ module.exports = {
         filteredTaskList = filteredTaskList.filter(task => !task.markCompleted || showCompleted);
 
         //filter by searchFilter
-        filteredTaskList = filteredTaskList.filter(task => {
-            searchFilter = searchFilter.toLowerCase();
-            let text = task.task.toLowerCase();
-            return searchFilter.length === 0 || text.indexOf(searchFilter) > -1;
-        });
+        if (searchFilter !== '') {
+            filteredTaskList = filteredTaskList.filter(task => {
+                console.log(task);
+                searchFilter = searchFilter.toLowerCase();
+                let text = task.task.toLowerCase();
+                return searchFilter.length === 0 || text.indexOf(searchFilter) > -1;
+            });
+        }
 
         //sort task by non-completed first
         filteredTaskList.sort((a, b) => {

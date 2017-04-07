@@ -1,6 +1,7 @@
 import React from 'react';
 import * as Redux from 'react-redux'
 import {setTask} from '../src-redux/actionGenerators/actionGenerators.jsx';
+import {hashHistory} from 'react-router';
 
 export let AddTodo = React.createClass({
     handleFormSubmit: function(e) {
@@ -10,7 +11,6 @@ export let AddTodo = React.createClass({
         let task = this.refs.taskToAdd.value;
         if (task !== '') {
             this.refs.taskToAdd.value = '';
-            console.log('about to dispatch addTodo');
             return dispatch(setTask(task));
         }
     },
@@ -27,4 +27,4 @@ export let AddTodo = React.createClass({
     }
 });
 
-export default Redux.connect()(AddTodo);
+export default Redux.connect(state => state)(AddTodo);

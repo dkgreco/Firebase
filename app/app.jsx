@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
@@ -7,7 +6,15 @@ import firebase from 'app/firebase/';
 import {fetchDataForView} from './src-redux/actionGenerators/actionGenerators.jsx';
 import router from 'app/router';
 
-let updateAuthState = user => user ? hashHistory.push('/tasks') : hashHistory.push('/');
+let updateAuthState = user => {
+    if (user) {
+        let {uid, displayName} = user;
+        store.dispatch(fetchDataForView(uid, displayName));
+        hashHistory.push('/tasks');
+    } else {
+        hashHistory.push('/');
+    }
+};
 firebase.auth().onAuthStateChanged(updateAuthState);
 
 //load redux
@@ -19,9 +26,6 @@ if(process.env.NODE_ENV !== 'production') {
         console.log('NewState: ', newState);
     });
 }
-
-//Init DB Data
-store.dispatch(fetchDataForView());
 
 //Load Foundation and Custom CSS
 require('style!css!sass!applicationStyles');

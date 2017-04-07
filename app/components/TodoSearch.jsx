@@ -13,6 +13,7 @@ let TodoSearch = React.createClass({
     changeView: function() {
         "use strict";
         let {dispatch, showCompleted} = this.props;
+        console.log(showCompleted);
         dispatch(showCompletedTasks(!showCompleted));
     },
     render: function() {

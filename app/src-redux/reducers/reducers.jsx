@@ -1,5 +1,21 @@
 module.exports = (() => {
-    let mapReducer = (state, action) => {
+    let authReducer = (state, action) => {
+            "use strict";
+            let defaultState = {};
+            state = state || defaultState;
+            switch(action.type) {
+                case 'LOGIN':
+                    return {
+                        id: action.id,
+                        userName: action.userName
+                    };
+                case 'LOGOUT':
+                    return state;
+                default:
+                    return state;
+            }
+        },
+        mapReducer = (state, action) => {
             "use strict";
             let defaultState = {
                 isFetching: false,
@@ -46,9 +62,6 @@ module.exports = (() => {
             state = state || [];
             switch(action.type) {
                 case 'CREATE':
-                    console.log('Inside Create Reducer.');
-                    console.log(state);
-                    console.log(action);
                     return [
                         ...state,
                         action.task
@@ -73,6 +86,7 @@ module.exports = (() => {
             }
         };
         return {
+            authReducer,
             mapReducer,
             searchFilterReducer,
             showCompletedReducer,

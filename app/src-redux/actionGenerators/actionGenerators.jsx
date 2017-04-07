@@ -44,13 +44,27 @@ module.exports = (() => {
                 showCompleted
             }
         },
-        _login = () => {
+        _login = (userName, id) => {
             "use strict";
-
+            return {
+                type: 'LOGIN',
+                id,
+                userName
+            }
         },
         _logout = () => {
         "use strict";
-
+            return {
+                type: 'LOGOUT'
+            }
+        },
+        _refetchUserCredentials = (id, userName) => {
+            "use strict";
+            return {
+                type: 'RE-FETCH',
+                id,
+                userName
+            }
         },
         _startLocationSearch = () => {
             "use strict";
@@ -71,10 +85,12 @@ module.exports = (() => {
             "use strict";
             return (dispatch, getState) => {
                 let successHandler = result => {
-                        console.log('Auth worked.', result);
+                        let {displayName, uid} = result.user;
+                        dispatch(_login(displayName, uid));
                     },
                     failureHandler = error => {
-                        console.log('Auth failed.', error);
+                        console.log('error: ', error);
+                        dispatch(_logout());
                     };
                 return firebase.auth().signInWithPopup(githubProvider).then(successHandler, failureHandler);
             }
@@ -82,8 +98,8 @@ module.exports = (() => {
         clientLogout = () => {
             "use strict";
             return (dispatch, getState) => {
-                let successHandler = result => {
-                        console.log('Sign-out successful.', result);
+                let successHandler = () => {
+                        dispatch(_logout());
                     },
                     failureHandler = error => {
                         console.log('Sign-out Failed.', error);
@@ -91,10 +107,14 @@ module.exports = (() => {
                 return firebase.auth().signOut().then(successHandler, failureHandler);
             }
         },
-        fetchDataForView = () => {
+        fetchDataForView = (uid, userName) => {
             "use strict";
-            let taskReference = firebaseReference.child('taskList');
-            return dispatch => {
+            let taskReference = firebaseReference.child(`Users/${uid}/taskList`);
+            return (dispatch, getState) => {
+                //Exit if we dont have a valid uid to proceed with a db update.
+                if (uid === '') return dispatch(clientLogout());
+                //Rebuild the Auth Object if it's been wiped from a refresh
+                if (!getState().auth.id) dispatch(_login(userName, uid));
                 taskReference.once('value').then(snapshot => {
                     let taskListObject = snapshot.val() || {},
                         parsedTasks = [];
@@ -135,18 +155,16 @@ module.exports = (() => {
         },
         setTask = taskAction => {
             "use strict";
-            console.log('inside setTask');
-            console.log(taskAction);
             return (dispatch, getState) => {
+                const uid = getState().auth.id;
+                console.log('uid for adding: ', uid);
                 let task =   {
                     task: taskAction,
                     markCompleted: false,
                     taskCreatedAt: Moment().unix(),
                     taskCompletedAt: null
                 };
-                console.log(task);
-                let taskReference = firebaseReference.child('taskList').push(task);
-                console.log(taskReference);
+                let taskReference = firebaseReference.child(`Users/${uid}/taskList`).push(task);
                 return taskReference.then(() => {
                     dispatch(_addTaskToList({
                         ...task,
@@ -158,7 +176,8 @@ module.exports = (() => {
         setToggle = (id, boolVal) => {
             "use strict";
             return (dispatch, getState) => {
-                let taskReference = firebaseReference.child(`taskList/${id}`),
+                const uid = getState().auth.id;
+                let taskReference = firebaseReference.child(`Users/${uid}/taskList/${id}`),
                     updateValues = {
                         markCompleted: boolVal,
                         taskCompletedAt: boolVal ? Moment().unix() : null
