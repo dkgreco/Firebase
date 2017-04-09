@@ -109,14 +109,15 @@ module.exports = {
                 },
                 test: /\.jsx?$/,
                 exclude: /(node_modules|bower_components)/
-            }
+            },
+            { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' }
         ]
     },
     sassLoader: {
         loaders: [
             {
                 test: /\.scss$/,
-                loaders: ["style-loader", "css-loader", "sass-loader"]
+                loaders: ["style-loader", "css-loader", "sass-loader", 'url-loader?limit=8192', 'file-loader']
             }
         ],
         includePaths: [

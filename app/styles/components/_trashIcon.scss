@@ -1,0 +1,15 @@
+.trashIconContainer {
+  cursor: pointer;
+  transition: background .3s ease;
+  padding: .33rem .75rem;
+  border-left: 1px solid lightgray;
+
+  &:hover {
+    background: #f0f0f0;
+    //content: url('../img/trashIcon.png');
+  }
+}
+
+.line-separator {
+  margin: 0 0 0.5rem;
+}

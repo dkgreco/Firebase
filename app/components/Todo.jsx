@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Redux from 'react-redux';
 import * as moment from 'moment';
-import {setToggle} from '../src-redux/actionGenerators/actionGenerators.jsx';
+import {setToggle, unsetTask} from '../src-redux/actionGenerators/actionGenerators.jsx';
 
 export let Todo = React.createClass({
     doNothing: function() {
@@ -13,6 +13,16 @@ export let Todo = React.createClass({
         "use strict";
         let {id, markCompleted, dispatch} = this.props;
         return  dispatch(setToggle(id, !markCompleted));
+    },
+    confirmTaskRemoval: function() {
+        "use strict";
+        console.log(this.props);
+        let userAction = confirm(`Are you sure you want to remove the task for ${this.props.task}?`),
+            {dispatch, id} = this.props;
+        if (userAction) {
+            return dispatch(unsetTask(id));
+        }
+        return null;
     },
     render: function() {
         "use strict";
@@ -31,11 +41,20 @@ export let Todo = React.createClass({
             return displayMarkup;
         };
         return (
-            <div onClick={this.toggleValue}>
-                <div className={taskClassName}>
-                    <input type="checkbox" checked={markCompleted} onChange={this.doNothing}/>
-                    {task}
-                    {renderTimeStampMessage()}
+            <div className="row">
+                <div className="columns small-11 medium-10 large-10">
+                    <div className={taskClassName} onClick={this.toggleValue}>
+                        <input type="checkbox" checked={markCompleted} onChange={this.doNothing}/>
+                        {task}
+                        <hr className="line-separator"/>
+                        {renderTimeStampMessage()}
+                    </div>
+                </div>
+                <div className="columns small-11 medium-2 large-2" onClick={this.confirmTaskRemoval}>
+                    <img className="todo trashIconContainer trashIcon"
+                         src={require('../styles/img/glass-icon-circled-x.png')}
+                    />
+                    <hr className="line-separator"/>
                 </div>
             </div>
         )
