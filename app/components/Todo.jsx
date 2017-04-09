@@ -52,7 +52,7 @@ export let Todo = React.createClass({
                 </div>
                 <div className="columns small-11 medium-2 large-2" onClick={this.confirmTaskRemoval}>
                     <img className="todo trashIconContainer trashIcon"
-                         src={require('../styles/img/glass-icon-circled-x.png')}
+                         src={require('../styles/img/transparent-glass-icon-x.png')}
                     />
                     <hr className="line-separator"/>
                 </div>

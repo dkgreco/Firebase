@@ -1,4 +1,4 @@
-import firebase, {firebaseReference, githubProvider} from 'app/firebase/';
+import firebase, {firebaseReference, githubProvider, facebookProvider} from 'app/firebase/';
 import Moment from 'moment';
 
 module.exports = (() => {
@@ -44,12 +44,13 @@ module.exports = (() => {
                 showCompleted
             }
         },
-        _login = (userName, id) => {
+        _login = (userName, id, provider) => {
             "use strict";
             return {
                 type: 'LOGIN',
                 id,
-                userName
+                userName,
+                provider
             }
         },
         _logout = () => {
@@ -81,18 +82,37 @@ module.exports = (() => {
             }
         };
 
-    let clientLogin = () => {
+    let clientLogin = loginMethod => {
             "use strict";
-            return (dispatch, getState) => {
-                let successHandler = result => {
-                        let {displayName, uid} = result.user;
-                        dispatch(_login(displayName, uid));
-                    },
-                    failureHandler = error => {
-                        console.log('error: ', error);
-                        dispatch(_logout());
+            console.log('Auth with: ', loginMethod);
+            switch(loginMethod) {
+                case 'GitHub':
+                    return (dispatch, getState) => {
+                        let successHandler = result => {
+                                let {displayName, uid} = result.user;
+                                let {provider} = result.credential;
+                                dispatch(_login(displayName, uid, provider));
+                            },
+                            failureHandler = error => {
+                                console.log('error: ', error);
+                                dispatch(_logout());
+                            };
+                        return firebase.auth().signInWithPopup(githubProvider).then(successHandler, failureHandler);
                     };
-                return firebase.auth().signInWithPopup(githubProvider).then(successHandler, failureHandler);
+                case 'Facebook':
+                    return (dispatch, getState) => {
+                        let successHandler = result => {
+                                console.log(result);
+                                let {displayName, uid} = result.user;
+                                let {provider} = result.credential;
+                                dispatch(_login(displayName, uid, provider));
+                            },
+                            failureHandler = error => {
+                                console.log('error: ', error);
+                                dispatch(_logout());
+                            };
+                        return firebase.auth().signInWithPopup(facebookProvider).then(successHandler, failureHandler);
+                    };
             }
         },
         clientLogout = () => {

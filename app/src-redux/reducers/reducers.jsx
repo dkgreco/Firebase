@@ -7,7 +7,8 @@ module.exports = (() => {
                 case 'LOGIN':
                     return {
                         id: action.id,
-                        userName: action.userName
+                        userName: action.userName,
+                        provider: action.provider
                     };
                 case 'LOGOUT':
                     return state;
