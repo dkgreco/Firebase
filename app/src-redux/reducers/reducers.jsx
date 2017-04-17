@@ -11,6 +11,7 @@ module.exports = (() => {
                         provider: action.provider
                     };
                 case 'LOGOUT':
+                    console.log('auth wiped');
                     return defaultState;
                 case 'RE-FETCH':
                     return {
@@ -66,7 +67,8 @@ module.exports = (() => {
         },
         taskListReducer = (state, action) => {
             "use strict";
-            state = state || [];
+            let defaultState = [];
+            state = state || defaultState;
             switch(action.type) {
                 case 'CREATE':
                     return [
@@ -88,6 +90,9 @@ module.exports = (() => {
                     });
                 case 'DELETE':
                     return state.filter(task => task.id !== action.id);
+                case 'LOGOUT':
+                    console.log('displayList wiped');
+                    return defaultState;
                 default:
                     return state;
             }
