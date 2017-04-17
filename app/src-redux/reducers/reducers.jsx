@@ -11,7 +11,13 @@ module.exports = (() => {
                         provider: action.provider
                     };
                 case 'LOGOUT':
-                    return state;
+                    return defaultState;
+                case 'RE-FETCH':
+                    return {
+                        id: action.id,
+                        userName: action.userName,
+                        provider: action.provider
+                    };
                 default:
                     return state;
             }
@@ -81,19 +87,7 @@ module.exports = (() => {
                         }
                     });
                 case 'DELETE':
-                    let updatedList = state.filter(task => task.id !== action.id);
-                    console.log(updatedList);
-                    return updatedList;
-/*                    return state.map(task => {
-                        if (task.id === action.id) {
-                            return {
-                                ...task,
-                                id: null
-                            }
-                        } else {
-                            return task;
-                        }
-                    });*/
+                    return state.filter(task => task.id !== action.id);
                 default:
                     return state;
             }

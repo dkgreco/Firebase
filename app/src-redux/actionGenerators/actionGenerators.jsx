@@ -59,12 +59,13 @@ module.exports = (() => {
                 type: 'LOGOUT'
             }
         },
-        _refetchUserCredentials = (id, userName) => {
+        _refetchUserCredentials = (id, userName, provider) => {
             "use strict";
             return {
                 type: 'RE-FETCH',
                 id,
-                userName
+                userName,
+                provider
             }
         },
         _startLocationSearch = () => {
@@ -84,7 +85,6 @@ module.exports = (() => {
 
     let clientLogin = loginMethod => {
             "use strict";
-            console.log('Auth with: ', loginMethod);
             switch(loginMethod) {
                 case 'GitHub':
                     return (dispatch, getState) => {
@@ -102,7 +102,6 @@ module.exports = (() => {
                 case 'Facebook':
                     return (dispatch, getState) => {
                         let successHandler = result => {
-                                console.log(result);
                                 let {displayName, uid} = result.user;
                                 let {provider} = result.credential;
                                 dispatch(_login(displayName, uid, provider));
@@ -127,14 +126,12 @@ module.exports = (() => {
                 return firebase.auth().signOut().then(successHandler, failureHandler);
             }
         },
-        fetchDataForView = (uid, userName) => {
+        fetchDataForView = uid => {
             "use strict";
             let taskReference = firebaseReference.child(`Users/${uid}/taskList`);
             return (dispatch, getState) => {
                 //Exit if we dont have a valid uid to proceed with a db update.
                 if (uid === '') return dispatch(clientLogout());
-                //Rebuild the Auth Object if it's been wiped from a refresh
-                if (!getState().auth.id) dispatch(_login(userName, uid));
                 taskReference.once('value').then(snapshot => {
                     let taskListObject = snapshot.val() || {},
                         parsedTasks = [];
@@ -167,6 +164,12 @@ module.exports = (() => {
                 });
             };
         },
+        refetchClientAuthInfo = (key, userName, providerName) => {
+        "use strict";
+            return dispatch => {
+                dispatch(_refetchUserCredentials(key, userName, providerName));
+            };
+        },
         setSearchFilter = searchFilter => {
             "use strict";
             return dispatch => {
@@ -177,7 +180,6 @@ module.exports = (() => {
             "use strict";
             return (dispatch, getState) => {
                 const uid = getState().auth.id;
-                console.log('uid for adding: ', uid);
                 let task =   {
                     task: taskAction,
                     markCompleted: false,
@@ -233,6 +235,7 @@ module.exports = (() => {
         clientLogout,
         fetchDataForView,
         fetchLocationInfo,
+        refetchClientAuthInfo,
         setSearchFilter,
         setTask,
         setToggle,

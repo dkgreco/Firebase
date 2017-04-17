@@ -3,13 +3,18 @@ import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {hashHistory} from 'react-router';
 import firebase from 'app/firebase/';
-import {fetchDataForView} from './src-redux/actionGenerators/actionGenerators.jsx';
+import {fetchDataForView, refetchClientAuthInfo} from './src-redux/actionGenerators/actionGenerators.jsx';
 import router from 'app/router';
 
 let updateAuthState = user => {
     if (user) {
         let {uid, displayName} = user;
-        store.dispatch(fetchDataForView(uid, displayName));
+        let {providerId} = user.providerData[0];
+        let {auth} = store.getState();
+        if (Object.keys(auth).length === 0) {
+            store.dispatch(refetchClientAuthInfo(uid, displayName, providerId));
+        }
+        store.dispatch(fetchDataForView(uid));
         hashHistory.push('/tasks');
     } else {
         hashHistory.push('/');
