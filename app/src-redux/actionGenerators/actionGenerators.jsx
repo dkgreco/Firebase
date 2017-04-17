@@ -131,7 +131,7 @@ module.exports = (() => {
             let taskReference = firebaseReference.child(`Users/${uid}/taskList`);
             return (dispatch, getState) => {
                 //Exit if we dont have a valid uid to proceed with a db update. May not need this?
-                if (uid === '') return dispatch(clientLogout());
+                //if (uid === '') return dispatch(clientLogout());
                 taskReference.once('value').then(snapshot => {
                     let taskListObject = snapshot.val() || {},
                         parsedTasks = [];
