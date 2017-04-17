@@ -81,7 +81,19 @@ module.exports = (() => {
                         }
                     });
                 case 'DELETE':
-                    return state.filter(task => task.id !== action.id);
+                    let updatedList = state.filter(task => task.id !== action.id);
+                    console.log(updatedList);
+                    return updatedList;
+/*                    return state.map(task => {
+                        if (task.id === action.id) {
+                            return {
+                                ...task,
+                                id: null
+                            }
+                        } else {
+                            return task;
+                        }
+                    });*/
                 default:
                     return state;
             }

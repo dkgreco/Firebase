@@ -25,7 +25,7 @@ export let Login = React.createClass({
                             <hr/>
                             <button className="button" onClick={this.onLogin_Github}>Login with Github</button>
                             <hr/>
-                            <button className="button" onClick={this.onLogin_Facebook}>Login with Facebook</button>
+                            <button className="button" onClick={this.onLogin_Facebook} disabled>Login with Facebook</button>
                         </div>
                     </div>
                 </div>

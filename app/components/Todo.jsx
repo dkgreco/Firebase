@@ -16,13 +16,11 @@ export let Todo = React.createClass({
     },
     confirmTaskRemoval: function() {
         "use strict";
-        console.log(this.props);
         let userAction = confirm(`Are you sure you want to remove the task for ${this.props.task}?`),
             {dispatch, id} = this.props;
         if (userAction) {
             return dispatch(unsetTask(id));
         }
-        return null;
     },
     render: function() {
         "use strict";

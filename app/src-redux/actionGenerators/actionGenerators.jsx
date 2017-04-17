@@ -217,8 +217,14 @@ module.exports = (() => {
         },
         unsetTask = taskId => {
             "use strict";
-            return dispatch => {
-                dispatch(_deleteTask(taskId));
+            return (dispatch, getState) => {
+                const uid = getState().auth.id;
+                let taskReference = firebaseReference.child(`Users/${uid}/taskList/${taskId}`);
+                return taskReference.remove().then(() => {
+                    dispatch(_deleteTask(taskId));
+                }, e => {
+                    console.error('Task Removal Failed: ', e);
+                });
             };
         };
 
